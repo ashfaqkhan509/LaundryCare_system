@@ -14,8 +14,8 @@ def add_address():
     """
     Add a new address for the currently authenticated customer.
 
-    This endpoint allows the logged-in customer to add an address. 
-    It requires the fields: street, area, postal_code, and city. 
+    This endpoint allows the logged-in customer to add an address.
+    It requires the fields: street, area, postal_code, and city.
     Only addresses within Lahore are allowed.
 
     Returns:

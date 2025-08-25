@@ -89,7 +89,7 @@ def create_order():
 
         if delivery_time <= pickup_time:
             return jsonify({"error": "Delivery time must be after pickup time"}), 400
-        
+
         # Calculate total price (100 PKR per kg for example)
         try:
             weight_kg = float(data["weight_kg"])
@@ -124,7 +124,6 @@ def create_order():
         import traceback
         traceback.print_exc()
         return jsonify({"error": str(e)}), 500
-
 
 
 @orders_bp.route("/", methods=["GET"])
@@ -285,7 +284,7 @@ def update_order_status(order_id):
 
     if order.worker_id != current_user.id:
         return jsonify({"error": "You are not assigned to this order"}), 403
-    
+
     data = request.get_json()
     new_status = data.get("status")
 

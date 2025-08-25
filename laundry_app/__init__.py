@@ -19,7 +19,7 @@ def create_app():
     jwt.init_app(app)
 
     from laundry_app.models import TokenBlocklist
-    
+
     @jwt.token_in_blocklist_loader
     def check_if_token_revoked(jwt_header, jwt_payload):
         jti = jwt_payload["jti"]

@@ -40,7 +40,7 @@ def signup():
             name=data['name'],
             email=data['email'],
             role=UserRole(data['role']),
-            phone = data['phone']
+            phone=data['phone']
         )
         user.set_password(data['password'])
 
@@ -86,7 +86,7 @@ def customer_login():
         # Validate required fields
         if not data.get('email') or not data.get('password'):
             return jsonify(
-                {'message': 'email and password are required', 'error': str(e)}
+                {'message': 'email and password are required'}
             ), 400
 
         # Find user
@@ -104,7 +104,9 @@ def customer_login():
         }), 200
 
     except Exception as e:
-        return jsonify({'message': 'An error occurred during login'}), 500
+        return jsonify(
+            {'message': 'An error occurred during login', 'error': str(e)}
+        ), 500
 
 
 @auth_bp.route('/worker/login', methods=['POST'])
