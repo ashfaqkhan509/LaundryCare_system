@@ -60,7 +60,16 @@ def upgrade():
     sa.Column('created_by', sa.Integer(), nullable=False),
     sa.Column('address_id', sa.Integer(), nullable=False),
     sa.Column('total_price', sa.Numeric(), nullable=False),
-    sa.Column('status', sa.Enum('CREATED', 'ACCEPTED', 'PICKED_UP', 'IN_PROGRESS', 'DELIVERED', 'COMPLETED', 'CANCELLED', name='orderstatus'), nullable=False),
+    sa.Column('status', sa.Enum(
+        'CREATED',
+        'ACCEPTED',
+        'PICKED_UP',
+        'IN_PROGRESS',
+        'DELIVERED',
+        'COMPLETED',
+        'CANCELLED',
+        name='orderstatus'
+    ), nullable=False),
     sa.Column('pickup_time', sa.DateTime(), nullable=False),
     sa.Column('delivery_time', sa.DateTime(), nullable=False),
     sa.Column('cancellation_fee', sa.Numeric(), nullable=False),
@@ -77,7 +86,12 @@ def upgrade():
     sa.Column('order_id', sa.Integer(), nullable=False),
     sa.Column('amount', sa.Numeric(), nullable=False),
     sa.Column('method', sa.Enum('CASH', 'CARD', 'WALLET', name='paymentmethod'), nullable=False),
-    sa.Column('status', sa.Enum('PENDING', 'SUCCESS', 'FAILED', name='paymentstatus'), nullable=False),
+    sa.Column('status', sa.Enum(
+        'PENDING',
+        'SUCCESS',
+        'FAILED',
+        name='paymentstatus'
+    ), nullable=False),
     sa.Column('transaction_id', sa.String(), nullable=False),
     sa.Column('payment_date', sa.DateTime(), server_default=sa.text('now()'), nullable=False),
     sa.ForeignKeyConstraint(['order_id'], ['orders.id'], ),

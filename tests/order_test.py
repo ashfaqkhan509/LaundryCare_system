@@ -123,15 +123,13 @@ def test_update_order_status_flow(client, auth_headers):
     worker_headers, worker, _ = auth_headers(UserRole.WORKER)
     client.post(f"/api/orders/{order_id}/claim", headers=worker_headers)
 
-    # Worker updates status to IN_PROGRESS
-    res = client.post(f"/api/orders/{order_id}/status", headers=worker_headers, json={"status": "picked_up"})
+    # Worker updates status to PICKED_UP
+    res = client.post(
+        f"/api/orders/{order_id}/status",
+        headers=worker_headers,
+        json={"status": "picked_up"}
+    )
     data = res.get_json()
-
-    # 👇 DEBUGGING OUTPUT
-    print("\n--- DEBUG ---")
-    print("Response status:", res.status_code)
-    print("Response JSON:", data)
-    print("---------------\n")
 
     assert res.status_code == 200
     assert data["success"] is True

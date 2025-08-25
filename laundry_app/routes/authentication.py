@@ -3,7 +3,6 @@ from flask import request, jsonify
 from flask_jwt_extended import get_jwt_identity, jwt_required, get_jwt
 from laundry_app import db
 from laundry_app.models import User, UserRole, TokenBlocklist
-from laundry_app.services.auth_service import AuthService
 from laundry_app.utils.auth_util import generate_tokens
 
 
@@ -285,4 +284,3 @@ def update_profile():
 
     db.session.commit()
     return jsonify({"message": "Profile updated successfully"}), 200
-

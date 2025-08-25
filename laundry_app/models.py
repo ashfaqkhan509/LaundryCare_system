@@ -136,9 +136,18 @@ class Order(db.Model):
     created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
     completed_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
 
-    customer: Mapped["User"] = relationship(back_populates="customer_orders", foreign_keys=[customer_id])
-    worker: Mapped["User"] = relationship(back_populates="worker_orders", foreign_keys=[worker_id])
-    creator: Mapped["User"] = relationship(back_populates="created_orders", foreign_keys=[created_by])
+    customer: Mapped["User"] = relationship(
+        back_populates="customer_orders",
+        foreign_keys=[customer_id]
+    )
+    worker: Mapped["User"] = relationship(
+        back_populates="worker_orders",
+        foreign_keys=[worker_id]
+    )
+    creator: Mapped["User"] = relationship(
+        back_populates="created_orders",
+        foreign_keys=[created_by]
+    )
     address: Mapped["Address"] = relationship(back_populates="orders")
 
     def to_dict(self):
@@ -163,7 +172,11 @@ class TokenBlocklist(db.Model):
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     jti: Mapped[str] = mapped_column(String, nullable=False, index=True, unique=True)
-    created_at: Mapped[datetime] = mapped_column(DateTime, nullable=False, default=datetime.utcnow)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime,
+        nullable=False,
+        default=datetime.utcnow
+    )
 
     def __repr__(self):
         return f"<TokenBlocklist jti={self.jti}>"

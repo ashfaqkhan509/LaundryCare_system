@@ -7,7 +7,12 @@ from laundry_app import db
 
 @pytest.fixture
 def worker_user():
-    worker = User(name="Worker", email="worker@test.com", phone="3333333333", role=UserRole.WORKER)
+    worker = User(
+        name="Worker",
+        email="worker@test.com",
+        phone="3333333333",
+        role=UserRole.WORKER
+    )
     worker.set_password("pass123")
     db.session.add(worker)
     db.session.commit()

@@ -1,7 +1,7 @@
 from datetime import datetime, timezone
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required
-from laundry_app.models import Order, OrderStatus, Address, User, UserRole
+from laundry_app.models import Order, OrderStatus, User, UserRole
 from laundry_app.services.auth_service import AuthService
 from laundry_app import db
 from laundry_app.services.order_service import calculate_cancellation_fee
@@ -72,7 +72,13 @@ def create_order_admin():
 
         data = request.get_json()
 
-        required_fields = ["customer_id", "worker_id", "pickup_time", "delivery_time", "weight_kg"]
+        required_fields = [
+            "customer_id",
+            "worker_id",
+            "pickup_time",
+            "delivery_time",
+            "weight_kg"
+        ]
         for field in required_fields:
             if not data.get(field):
                 return jsonify({"error": f"{field} is required"}), 400

@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required
 from laundry_app import db
-from laundry_app.models import User, Address
+from laundry_app.models import Address
 from laundry_app.services.auth_service import AuthService
 
 
@@ -59,4 +59,3 @@ def add_address():
     except Exception as e:
         db.session.rollback()
         return jsonify({"error": str(e)}), 500
-

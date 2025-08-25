@@ -1,6 +1,4 @@
-import pytest
-from laundry_app import db
-from laundry_app.models import User, UserRole
+from laundry_app.models import UserRole
 
 
 def test_signup_success(client):

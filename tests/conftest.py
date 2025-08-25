@@ -1,4 +1,3 @@
-from datetime import datetime
 import pytest
 from laundry_app.models import Address, User, UserRole
 from laundry_app import create_app, db
@@ -68,7 +67,9 @@ def create_user_with_address(create_user):
             # Generate a more unique phone number
             import time
             import random
-            phone = f"12345{role.value[-3:]}{int(time.time() * 1000000)}{random.randint(1000, 9999)}"  # more unique
+            phone = (
+                f"12345{role.value[-3:]}{int(time.time() * 1000000)}{random.randint(1000, 9999)}"
+            )
         user = create_user(name, email, password, role=role, phone=phone)
         addr = Address(
             user_id=user.id,

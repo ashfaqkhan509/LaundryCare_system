@@ -1,7 +1,6 @@
 import pytest
 from datetime import datetime, timedelta, timezone
-
-from laundry_app.models import Order, OrderStatus, UserRole
+from laundry_app.models import UserRole
 from laundry_app.services.order_service import CANCELLATION_FEE_PERCENT
 
 

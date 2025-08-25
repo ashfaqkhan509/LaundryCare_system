@@ -1,9 +1,6 @@
-"""
-Shared service for authentication and authorization
-"""
-from flask import jsonify
 from flask_jwt_extended import get_jwt_identity
 from laundry_app.models import User
+
 
 class AuthService:
     @staticmethod

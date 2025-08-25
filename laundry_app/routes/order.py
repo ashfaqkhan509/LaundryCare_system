@@ -45,7 +45,9 @@ def create_order():
         elif current_user.role == UserRole.WORKER:
             customer_id = data.get("customer_id")
             if not customer_id:
-                return jsonify({"error": "customer_id is required when worker creates an order"}), 400
+                return jsonify(
+                    {"error": "customer_id is required when worker creates an order"}
+                ), 400
 
             # Check if that customer is assigned to this worker
             customer = User.query.filter_by(id=customer_id, role=UserRole.CUSTOMER).first()
@@ -142,7 +144,9 @@ def get_orders():
         current_user = AuthService.get_current_user()
 
         if current_user.role == UserRole.CUSTOMER:
-            orders = Order.query.filter_by(customer_id=current_user.id).order_by(Order.created_at.desc()).all()
+            orders = Order.query.filter_by(
+                customer_id=current_user.id
+            ).order_by(Order.created_at.desc()).all()
 
         elif current_user.role == UserRole.WORKER:
             orders = Order.query.filter(
@@ -222,7 +226,9 @@ def list_unclaimed_orders():
     if current_user.role != UserRole.WORKER:
         return jsonify({"error": "Only workers can access this"}), 403
 
-    orders = Order.query.filter_by(status=OrderStatus.CREATED).order_by(Order.created_at.desc()).all()
+    orders = Order.query.filter_by(
+        status=OrderStatus.CREATED
+    ).order_by(Order.created_at.desc()).all()
     return jsonify({"orders": [order.to_dict() for order in orders]}), 200
 
 
