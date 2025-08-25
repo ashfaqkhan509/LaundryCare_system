@@ -1,7 +1,5 @@
-import pytest
 from datetime import datetime, timedelta, timezone
-from laundry_app import db
-from laundry_app.models import User, UserRole, Address, Order, OrderStatus
+from laundry_app.models import UserRole, OrderStatus
 
 
 def test_create_order_as_customer(client, auth_headers):
@@ -36,7 +34,7 @@ def test_get_orders_customer_only_sees_own(client, auth_headers):
 
     # Get orders
     res = client.get("/api/orders/", headers=headers)
-    data = res.get_json()
+    res.get_json()
     assert res.status_code == 200
 
 

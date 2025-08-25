@@ -1,7 +1,6 @@
 import pytest
 from datetime import datetime, timedelta, timezone
 from laundry_app.models import User, UserRole, Order, OrderStatus
-from laundry_app.services.auth_service import AuthService
 from laundry_app import db
 
 
@@ -51,7 +50,6 @@ def test_create_order_as_admin(client, auth_headers, worker_user):
     data = res.get_json()
     assert data["order"]["id"] is not None
     assert data["order"]["status"] == "created"
-
 
 
 def test_create_order_with_invalid_customer(client, auth_headers, worker_user):

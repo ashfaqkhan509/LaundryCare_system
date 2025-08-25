@@ -1,5 +1,4 @@
 from flask import Blueprint, request, jsonify
-from flask import request, jsonify
 from flask_jwt_extended import get_jwt_identity, jwt_required, get_jwt
 from laundry_app import db
 from laundry_app.models import User, UserRole, TokenBlocklist
@@ -32,33 +31,30 @@ def signup():
     """
     try:
         data = request.get_json()
-        
+
         if User.query.filter_by(email=data['email']).first():
             return jsonify({'message': 'Email already exists'}), 409
-        
+
         # Create user
         user = User(
-            name = data['name'],
-            email = data['email'],
+            name=data['name'],
+            email=data['email'],
             role=UserRole(data['role']),
             phone = data['phone']
-            
         )
         user.set_password(data['password'])
 
         # Add to database
         db.session.add(user)
         db.session.commit()
-        
+
         return jsonify({
             'message': 'User signup successfully',
             'user': user.to_dict()
         }), 201
-        
+
     except Exception as e:
         db.session.rollback()
-        import traceback
-        traceback.print_exc() 
         return jsonify({
             'error': 'Something went wrong during signup',
             'details': str(e)
@@ -86,25 +82,27 @@ def customer_login():
     """
     try:
         data = request.get_json()
-        
+
         # Validate required fields
         if not data.get('email') or not data.get('password'):
-            return jsonify({'message': 'email and password are required'}), 400
-        
+            return jsonify(
+                {'message': 'email and password are required', 'error': str(e)}
+            ), 400
+
         # Find user
         user = User.query.filter_by(email=data['email'], role=UserRole.CUSTOMER).first()
         if not user or not user.check_password(data['password']):
             return jsonify({'message': 'Invalid email or password'}), 401
-        
+
         # Generate tokens
         access_token, refresh_token = generate_tokens(user.id, user.role.value)
-        
+
         return jsonify({
             'access_token': access_token,
             'refresh_token': refresh_token,
             'user': user.to_dict()
         }), 200
-        
+
     except Exception as e:
         return jsonify({'message': 'An error occurred during login'}), 500
 
@@ -130,25 +128,26 @@ def worker_login():
     """
     try:
         data = request.get_json()
-        
+
         if not data.get('email') or not data.get('password'):
             return jsonify({'error': 'Email and password required'}), 400
-        
+
         user = User.query.filter_by(email=data['email'], role=UserRole.WORKER).first()
-        
+
         if not user or not user.check_password(data['password']):
             return jsonify({'error': 'Invalid credentials'}), 401
-        
+
         access_token, refresh_token = generate_tokens(user.id, user.role.value)
-        
+
         return jsonify({
             'access_token': access_token,
             'refresh_token': refresh_token,
             'user': user.to_dict()
         }), 200
-        
+
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
 
 @auth_bp.route('/admin/login', methods=['POST'])
 def admin_login():
@@ -173,10 +172,10 @@ def admin_login():
     """
     try:
         data = request.get_json()
-        
+
         if not data.get('email') or not data.get('password'):
             return jsonify({'error': 'Email and password required'}), 400
-        
+
         user = User.query.filter_by(email=data['email']).first()
 
         if not user:
@@ -187,15 +186,15 @@ def admin_login():
 
         if not user.check_password(data['password']):
             return jsonify({'error': 'Wrong password'}), 401
-        
+
         access_token, refresh_token = generate_tokens(user.id, user.role.value)
-        
+
         return jsonify({
             'access_token': access_token,
             'refresh_token': refresh_token,
             'user': user.to_dict()
         }), 200
-        
+
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
@@ -222,7 +221,6 @@ def logout():
         return jsonify({'message': 'Successfully logged out'}), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
-
 
 
 @auth_bp.route("/profile", methods=["GET"])

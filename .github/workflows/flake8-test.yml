@@ -71,6 +71,8 @@ jobs:
           echo "DB_PASSWORD=ashfaq509" >> $GITHUB_ENV
           echo "DB_HOST=127.0.0.1" >> $GITHUB_ENV
           echo "DB_PORT=5432" >> $GITHUB_ENV
+          echo "SQLALCHEMY_DATABASE_URI=postgresql://postgres:ashfaq509@127.0.0.1:5432/laundry_care_test_db" >> $GITHUB_ENV
+
 
       - name: Wait for PostgreSQL
         run: |

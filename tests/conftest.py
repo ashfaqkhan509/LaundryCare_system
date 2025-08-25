@@ -37,12 +37,12 @@ def clean_db(app):
     with app.app_context():
         # First, rollback any pending transactions
         db.session.rollback()
-        
+
         # Delete all data from tables in proper order
         meta = db.metadata
         for table in reversed(meta.sorted_tables):
             db.session.execute(table.delete())
-        
+
         db.session.commit()
         db.session.remove()
 
@@ -84,7 +84,6 @@ def create_user_with_address(create_user):
     return _create_user_with_address
 
 
-
 @pytest.fixture
 def auth_headers(client, create_user_with_address):
     """Helper: create a user & login for given role, returns (headers, user, addr)."""
@@ -93,22 +92,22 @@ def auth_headers(client, create_user_with_address):
         import time
         email = f"{role.value}_{int(time.time() * 1000000)}@example.com"
         user, addr = create_user_with_address(role.value, email, "pass123", role=role)
-        
+
         # Map roles to login endpoints
         login_endpoints = {
             UserRole.CUSTOMER: "/auth/customer/login",
             UserRole.WORKER: "/auth/worker/login",
             UserRole.ADMIN: "/auth/admin/login",
         }
-        
+
         login_url = login_endpoints[role]
-        
+
         res = client.post(login_url, json={"email": email, "password": "pass123"})
-        
+
         data = res.get_json()
         assert data is not None, "Login did not return JSON"
         assert "access_token" in data, f"Login failed: {data}"
-        
+
         token = data["access_token"]
         return {"Authorization": f"Bearer {token}"}, user, addr
     return _auth_headers

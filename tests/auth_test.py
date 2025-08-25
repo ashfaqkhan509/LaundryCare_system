@@ -93,7 +93,7 @@ def test_admin_login_not_admin(client, create_user):
 
 def test_profile_get_and_update(client, create_user):
     """Test fetching and updating user profile."""
-    user = create_user("user", "user@example.com", "password123", UserRole.CUSTOMER)
+    create_user("user", "user@example.com", "password123", UserRole.CUSTOMER)
 
     # Login to get token
     res = client.post("/auth/customer/login", json={
@@ -108,7 +108,8 @@ def test_profile_get_and_update(client, create_user):
     assert res.get_json()["email"] == "user@example.com"
 
     # Update profile
-    res = client.put("/auth/profile",
+    res = client.put(
+        "/auth/profile",
         headers={"Authorization": f"Bearer {token}"},
         json={"name": "New Name", "phone": "9876543210"}
     )

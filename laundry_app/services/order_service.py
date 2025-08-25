@@ -1,6 +1,5 @@
 from datetime import datetime, timedelta, timezone
 from laundry_app.models import Order, OrderStatus
-from datetime import timezone
 import os
 
 
