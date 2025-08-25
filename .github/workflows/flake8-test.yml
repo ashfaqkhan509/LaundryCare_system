@@ -42,6 +42,7 @@ jobs:
           POSTGRES_DB: laundry_care_test_db
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: ashfaq509
+          TZ_OFFSET: 0
         ports:
           - 5432:5432
         options: >-

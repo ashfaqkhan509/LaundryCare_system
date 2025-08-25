@@ -103,7 +103,12 @@ def upgrade():
             name='paymentstatus'
         ), nullable=False),
         sa.Column('transaction_id', sa.String(), nullable=False),
-        sa.Column('payment_date', sa.DateTime(), server_default=sa.text('now()'), nullable=False),
+        sa.Column(
+            'payment_date',
+            sa.DateTime(),
+            server_default=sa.text('now()'),
+            nullable=False
+        ),
         sa.ForeignKeyConstraint(['order_id'], ['orders.id'], ),
         sa.PrimaryKeyConstraint('id')
     )
