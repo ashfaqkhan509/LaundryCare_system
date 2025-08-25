@@ -95,7 +95,12 @@ def upgrade():
         sa.Column('id', sa.Integer(), nullable=False),
         sa.Column('order_id', sa.Integer(), nullable=False),
         sa.Column('amount', sa.Numeric(), nullable=False),
-        sa.Column('method', sa.Enum('CASH', 'CARD', 'WALLET', name='paymentmethod'), nullable=False),
+        sa.Column('method', sa.Enum(
+            'CASH',
+            'CARD',
+            'WALLET',
+            name='paymentmethod'
+        ), nullable=False),
         sa.Column('status', sa.Enum(
             'PENDING',
             'SUCCESS',
